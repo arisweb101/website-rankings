@@ -1,0 +1,44 @@
+services:
+    mysql:
+        image: mysql:8.0
+        container_name: mysql-container
+        environment:
+            MYSQL_ROOT_PASSWORD: HelloWorld1234
+            MYSQL_DATABASE: website_rankings
+        ports:
+            - '3306:3306'
+        networks:
+            - app-network
+        healthcheck:
+            test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+            interval: 10s
+            timeout: 5s
+            retries: 5
+
+    server:
+        build:
+            context: ./server
+        container_name: server-container
+        environment:
+            DB_URL: mysql://root:HelloWorld1234@mysql:3306/website_rankings
+        ports:
+            - '4000:4000'
+        depends_on:
+            mysql:
+                condition: service_healthy
+        networks:
+            - app-network
+        restart: always
+
+    client:
+        build:
+            context: ./client
+        container_name: client-container
+        ports:
+            - '3000:80'
+        networks:
+            - app-network
+
+networks:
+    app-network:
+        driver: bridge
