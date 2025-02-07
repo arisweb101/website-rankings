@@ -31,12 +31,13 @@ SERVER
 
 ```env
 PORT=4000
-DB_URL=
-DB_USERNAME=
-DB_PASSWORD=
-DB_NAME=
+DB_URL=DB_URL=mysql://root:your_password@your_database_host:3306/your_database_name
+DB_USERNAME=your_database_user
+DB_PASSWORD=your_database_password
+DB_NAME=your_database_name
 DB_DIALECT=mysql
-API_URL=
+API_URL=your_api_url
+
 ```
 
 ### 2️⃣ Build and Start Containers
